@@ -9,7 +9,7 @@ const http = require('http'),
       app = module.exports.app = express(),
 	  server = http.createServer(app),
       io = require('socket.io')(server), //pass a http.Server instance
-	  socket = require('socket.io-client')('http://localhost:3000/'),
+	  // socket = require('socket.io-client')('http://localhost:3000/'),
 	  EmmaServe = require("serve-me");
 
 //Config
@@ -29,4 +29,9 @@ serve_emma.start(process.env.PORT || 3000, function(){
     console.log("I'm alive!");
 });
 
-serve_emma.get("/", "/index.html")
+serve_emma.get("/", "/index.html");
+
+// Get callback from TrueLayer
+serve_emma.get("/callback/", function(req){
+	console.log(req.params)
+});
