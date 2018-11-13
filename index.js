@@ -6,14 +6,27 @@
 
 const http = require('http'),
 	  path = require('path'),
+	  config = require('config'),
       express = require('express'),
       app = module.exports.app = express(),
+      axios = require('axios'),
 	  server = http.createServer(app),
       io = require('socket.io')(server); //pass a http.Server instance
 
 const socket = require('socket.io-client')('http://localhost:3000');
 
-var code = '';
+var AUTH_TOKEN = '';
+
+var true_layer_api = axios.create({
+  baseURL: 'https://api.truelayer.com/data/v1/',
+  headers: {
+    Authorization: {
+      toString () {
+        return `Bearer ${localStorage.getItem('auth_token')}`
+      }
+    }
+  }
+});
 
 server.listen(process.env.PORT || 3000);
 
@@ -32,9 +45,16 @@ app.get('/', function(req, res) {
 
 // Return The Profile Page
 app.get('/profile', function(req, res) {
-	code = req.query.code;
+	io.emit('auth_token', req.query.code);
 	console.log(req.query.code);
-  res.sendFile(__dirname + '/public/index.html');
+	true_layer_api.get('/me')
+	.then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+  res.sendFile(__dirname + '/public/profile.html');
 });
 
 // Return The Home Page
