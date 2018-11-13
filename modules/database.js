@@ -12,6 +12,14 @@ var db = new Promise(function(resolve, reject){
   	if (err) throw err;
   	console.log("Connected!");
 	});
+
+	con.connect(function(err) {
+	  if (err) throw err;
+	  con.query("SELECT * FROM customers", function (err, result, fields) {
+	    if (err) throw err;
+	    console.log(result);
+	  });
+	});
 });
 
 module.exports = db;

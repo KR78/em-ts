@@ -12,6 +12,7 @@ const http = require('http'),
       io = require('socket.io')(server); //pass a http.Server instance
 
 //Modules
+const db = require('./modules/database');
 const ct = require('./modules/controller');
 const emms = require('./modules/serve_emma');
 
