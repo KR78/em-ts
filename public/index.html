@@ -7,14 +7,22 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 
-<body style="background-image: url(http://thepatternlibrary.com/img/bc.png);">
+<body>
   <div class="container">
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding-top: 5%;">
 	    <div class="card text-center" style="width:400px; margin: 0 auto;float: none;margin-bottom:10px;">
 			  <div class="card-body">
 			  	<p class="nm" style="font-size:25px; padding-top: 10%;">Victor Karanja</p>
 	      <p clas="title" style="font-size:25px; padding-top: 4%;">Emma Test</p>
 	      <a href="https://auth.truelayer.com/?response_type=code&client_id=emmatest-qv1r&nonce=868368832&scope=info%20accounts%20balance%20transactions%20cards%20offline_access&redirect_uri=http://localhost:3000/callback/&enable_mock=true&enable_oauth_providers=true&enable_open_banking_providers=false&enable_credentials_sharing_providers=true" class="btn btn-lg btn-success">LOG IN</a>
+			  </div>
+		</div>
+    </div>
+
+    <div class="col-md-12">
+	    <div class="card text-center" style="width:1000px; margin: 0 auto;float: none;margin-bottom:10px;">
+			  <div class="card-body">
+				<pre></pre>
 			  </div>
 		</div>
     </div>
@@ -28,6 +36,10 @@
 <script src="./public/socket.io/socket.io.js"></script>
 <script>
   var socket = io.connect('http://localhost:3000');
+
+  socket.on('users', function(data) {
+    console.log(data);
+  });
 </script>
 
 </html>
