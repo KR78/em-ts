@@ -20,5 +20,6 @@ serve_emma.get("/", "/index.html");
 
 // Get callback from TrueLayer
 serve_emma.get("/callback/", function(req){
+    return 'Got it';
 	console.log(req.params)
 });

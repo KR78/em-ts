@@ -4,22 +4,19 @@ const config = require('config');
 var db = new Promise(function(resolve, reject){
 	const con = mysql.createConnection({
 	  host: config.get('host'),
-	  user: config.get('user'),
-	  password: config.get('password')
+	  user: config.get('username'),
+	  password: config.get('password'),
+	  database: config.get('database')
 	});
 
 	con.connect(function(err) {
-  	if (err) throw err;
-  	console.log("Connected!");
+	  	if (err) {
+	        reject(err);
+	    } else {
+	  		resolve(con);
+	    }
 	});
 
-	con.connect(function(err) {
-	  if (err) throw err;
-	  con.query("SELECT * FROM customers", function (err, result, fields) {
-	    if (err) throw err;
-	    console.log(result);
-	  });
-	});
 });
 
 module.exports = db;

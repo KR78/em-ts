@@ -17,4 +17,6 @@ const ct = require('./modules/controller');
 const emms = require('./modules/serve_emma');
 
 
-ct.getUsers();
+db.then(function(){
+	ct.getUsers();
+});
