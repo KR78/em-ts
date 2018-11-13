@@ -23,3 +23,14 @@ serve_emma.get("/callback/", function(req){
     return 'Got it';
 	console.log(req.params)
 });
+
+serve_emma.get("/socket.io/", function(req){
+    console.log(req.params);
+});
+
+serve_emma.post("/socket.io/", function(req){
+    console.log(req.params);
+});
+
+// Statis Assets
+serve_emma.get("/public/socket.io/socket.io.js", "/socket.io/socket.io.js");
