@@ -49,13 +49,13 @@ app.get('/profile', function(req, res) {
 	localStorage.setItem('auth_token', req.query.code); // store token in localstorage
 	io.emit('auth_token', req.query.code); // emit token to client using socket.io
 	console.log(req.query.code);
-	// true_layer_api.get('/me')
-	// .then(function (response) {
-	//     console.log(response);
-	//   })
-	//   .catch(function (error) {
-	//     console.log(error);
-	//   });
+	axios.get('https://auth.truelayer.com/connect/token', { headers: { "client_id": "emmatest-qv1r", "client_secret": "w4gin1n4ujm8vaz6748o7", "redirect_url": "http://localhost:3000", "code": req.query.code }})
+	.then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
   res.sendFile(__dirname + '/public/profile.html');
 });
 
