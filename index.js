@@ -47,11 +47,12 @@ app.get('/', function(req, res) {
 // Return The Profile Page
 app.get('/profile', function(req, res) {
 	localStorage.setItem('auth_token', req.query.code); // store token in localstorage
-	io.emit('auth_token', req.query.code); // emit token to client using socket.io
+	// io.emit('auth_token', req.query.code); // emit token to client using socket.io
 	console.log(req.query.code);
-	axios.get('https://auth.truelayer.com/connect/token', { headers: { "grant_type": "authorization_code", "client_id": "emmatest-qv1r", "client_secret": "w4gin1n4ujm8vaz6748o7", "redirect_url": "http://localhost:3000/callback/", "code": req.query.code }})
+	//Get auth token
+	axios.post('https://auth.truelayer.com/connect/token', null, { headers: { "grant_type": "authorization_code", "client_id": config.get('client_id'), "client_secret": config.get('client_secret'), "redirect_url": config.get('redirect_url'), "code": req.query.code }})
 	.then(function (response) {
-	    console.log(response);
+	    console.log(response.data);
 	  })
 	  .catch(function (error) {
 	    console.log(error);
