@@ -11,6 +11,7 @@ const http = require('http'),
       app = module.exports.app = express(),
       axios = require('axios'),
 	  server = http.createServer(app),
+	  localStorage = require('localStorage'),
       io = require('socket.io')(server); //pass a http.Server instance
 
 const socket = require('socket.io-client')('http://localhost:3000');
@@ -45,15 +46,16 @@ app.get('/', function(req, res) {
 
 // Return The Profile Page
 app.get('/profile', function(req, res) {
-	io.emit('auth_token', req.query.code);
+	localStorage.setItem('auth_token', req.query.code); // store token in localstorage
+	io.emit('auth_token', req.query.code); // emit token to client using socket.io
 	console.log(req.query.code);
-	true_layer_api.get('/me')
-	.then(function (response) {
-	    console.log(response);
-	  })
-	  .catch(function (error) {
-	    console.log(error);
-	  });
+	// true_layer_api.get('/me')
+	// .then(function (response) {
+	//     console.log(response);
+	//   })
+	//   .catch(function (error) {
+	//     console.log(error);
+	//   });
   res.sendFile(__dirname + '/public/profile.html');
 });
 

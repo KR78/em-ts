@@ -36,7 +36,7 @@
 <script>
   var socket = io.connect('http://localhost:3000');
 
-  socket.on('users', function(data) {
+  socket.on('auth_token', function(data) {
     console.log(data);
   });
 </script>
