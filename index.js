@@ -8,6 +8,7 @@ const http = require('http'),
 	  path = require('path'),
 	  config = require('config'),
       express = require('express'),
+      curl = new (require( 'curl-request' ))(),
       app = module.exports.app = express(),
       axios = require('axios'),
 	  server = http.createServer(app),
@@ -16,9 +17,7 @@ const http = require('http'),
 
 const socket = require('socket.io-client')('http://localhost:3000');
 
-const curl = new (require( 'curl-request' ))();
-
-var AUTH_TOKEN = '';
+global.AUTH_TOKEN = '';
 
 var true_layer_api = axios.create({
   baseURL: 'https://api.truelayer.com/data/v1/',
@@ -54,7 +53,6 @@ app.get('/callback', function(req, res) {
 
 // Return The Profile Page
 app.get('/profile', function(req, res) {
-	localStorage.setItem('auth_token', req.query.code); // store token in localstorage
 	// io.emit('auth_token', req.query.code); // emit token to client using socket.io
 	console.log(req.query.code);
 	//Get auth token
@@ -69,6 +67,7 @@ app.get('/profile', function(req, res) {
 		.post('https://auth.truelayer.com/connect/token')
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
+		    AUTH_TOKEN = body.access_token;
 		})
 		.catch((e) => {
 		    console.log(e);
