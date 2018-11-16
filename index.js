@@ -41,7 +41,7 @@ const ct = require('./modules/controller');
 /**
  * Get List of Transactions
  */
-fetchTranscations(id){
+function fetchTranscations(id){
 	curl.setHeaders([
     'Authorization: Bearer '+ token
 		])
@@ -54,13 +54,11 @@ fetchTranscations(id){
 		.catch((e) => {
 		    console.log(e);
 		});
-		//store the transations 
-	ct.getTransactions(token);
 }
 /**
  * Get List of Accounts
  */
-getAccountsAndTransactions(token){
+function getAccountsAndTransactions(token){
 	curl.setHeaders([
     'Authorization: Bearer '+ token
 		])
@@ -78,8 +76,6 @@ getAccountsAndTransactions(token){
 		.catch((e) => {
 		    console.log(e);
 		});
-		//store the transations 
-	ct.getTransactions(token);
 }
 
 // Allow Get Requests For The APP's Assets
@@ -88,6 +84,12 @@ app.use('/public/socket.io', express.static(path.join(__dirname, 'public/socket.
 // Return The Home Page
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
+});
+
+// Return The Home Page
+app.get('/callback/', function(req, res) {
+	console.log(req.params);
+		res.redirect('/profile?code=' + req.query.code);
 });
 
 // Return The Home Page
