@@ -32,17 +32,46 @@ var true_layer_api = axios.create({
 
 server.listen(process.env.PORT || 3000);
 
-//Modules
+/**
+ * Modules
+ */
 const db = require('./modules/database');
 const ct = require('./modules/controller');
 
-getTranscations(token){
+/**
+ * Get List of Transactions
+ */
+fetchTranscations(id){
+	curl.setHeaders([
+    'Authorization: Bearer '+ token
+		])
+		.get('https://api.truelayer.com/data/v1/accounts/'+id+'/transactions')
+		.then(({statusCode, body, headers}) => {
+		    console.log(statusCode, body, headers)
+		})
+		.catch((e) => {
+		    console.log(e);
+		});
+		//store the transations 
+	ct.getTransactions(token);
+}
+/**
+ * Get List of Accounts
+ */
+getAccountsAndTransactions(token){
 	curl.setHeaders([
     'Authorization: Bearer '+ token
 		])
 		.get('https://api.truelayer.com/data/v1/accounts')
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
+		    // Get the account_id of the first account
+		    var accnt_id = body.results[0].account_id
+		    //store the transations 
+			ct.storeAccounts(body.results).then(() => {
+				// get Transactions of first account after storing accounts
+		    	fetchTransactions(body.results[0].account_id)
+			});
 		})
 		.catch((e) => {
 		    console.log(e);
@@ -82,7 +111,7 @@ app.get('/profile', function(req, res) {
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
 		    AUTH_TOKEN = body.access_token;
-		    getTranscations(AUTH_TOKEN);
+		    getAccountsAndTransactions(AUTH_TOKEN);
 		})
 		.catch((e) => {
 		    console.log(e);
