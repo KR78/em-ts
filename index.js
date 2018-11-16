@@ -36,6 +36,20 @@ server.listen(process.env.PORT || 3000);
 const db = require('./modules/database');
 const ct = require('./modules/controller');
 
+getTranscations(token){
+	curl.setHeaders([
+    'Authorization: Bearer '+ token
+		])
+		.get('https://api.truelayer.com/data/v1/accounts')
+		.then(({statusCode, body, headers}) => {
+		    console.log(statusCode, body, headers)
+		})
+		.catch((e) => {
+		    console.log(e);
+		});
+		//store the transations 
+	ct.getTransactions(token);
+}
 
 // Allow Get Requests For The APP's Assets
 app.use('/public/socket.io', express.static(path.join(__dirname, 'public/socket.io')));
@@ -68,6 +82,7 @@ app.get('/profile', function(req, res) {
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
 		    AUTH_TOKEN = body.access_token;
+		    getTranscations(AUTH_TOKEN);
 		})
 		.catch((e) => {
 		    console.log(e);
