@@ -92,12 +92,6 @@ app.get('/callback/', function(req, res) {
 		res.redirect('/profile?code=' + req.query.code);
 });
 
-// Return The Home Page
-app.get('/callback', function(req, res) {
-	console.log(req.params);
-		res.redirect('/profile?code=' + req.query.code);
-});
-
 // Return The Profile Page
 app.get('/profile', function(req, res) {
 	// io.emit('auth_token', req.query.code); // emit token to client using socket.io

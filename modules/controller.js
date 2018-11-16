@@ -19,7 +19,7 @@ module.exports.storeTransactions = function(transactns) {
 
         data.forEach(function(transactn) {
             var account = [transactn.transaction_id, transactn.description, transactn.amount, transactn.currency, transactn.transaction_type, transactn.transaction_category, transactn.merchant_name, transactn.meta.bnk_transactions_id];
-            accounts_data.push(account); // push each account to array
+            transactions_data.push(account); // push each account to array
         });
 
         console.log(accounts_data);
