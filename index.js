@@ -58,15 +58,25 @@ function fetchTranscations(id){
 /**
  * Get List of Transactions by ID and Store Logs
  */
-function fetchTranscations(id){
+function fetchTranscationsAndLog(id){
+	// Start tracking time
+	var start = new Date()
+	var tracker_start = process.hrtime()
+	// Make the curl request
 	curl.setHeaders([
     'Authorization: Bearer '+ token
 		])
 		.get('https://api.truelayer.com/data/v1/accounts/'+id+'/transactions')
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
+		    // End tracking time
+		    var end_time = new Date() - start;
+    		var tracker_end = process.hrtime(tracker_start);
+    		// Get data from TrueLayer
 		    var data = body.results;
 		    ct.storeTransactions(data);
+		    // Pass transactions and log time
+		    ct.storeLogs(data, end_time);
 		})
 		.catch((e) => {
 		    console.log(e);

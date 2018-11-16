@@ -80,11 +80,19 @@ module.exports.getTransactions = function(req, res) {
 // Store log files
 module.exports.storeLogs = function(transaction, get_log) {
     return new Promise(resolve => {
-        var data = get_log;
+        var data = transaction; // fetch all the accounts
+        var transaction_data = [] // create empty array to push accounts data
+
+        var elapsed_time = get_log;
+
+        data.forEach(function(transact) {
+            var transactn = [transact.transaction_id, elapsed_time, transact.transaction_type, transact.amount, transact.currency, transact.merchant_name];
+            accounts_data.push(account); // push each account to array
+        });
         db.then(function(connection) {
             console.log('con');
             // query database 
-            var statmnt = "INSERT INTO accounts (account_id, account_type, currency, display_name, provider) VALUES ?"
+            var statmnt = "INSERT INTO logs (transation_id, elapsed_time, amount, currency, merchant_name) VALUES ?"
             connection.query(statmnt, [data], function(err, result, fields) {
                 if (err) throw err;
                 return console.log(result);
