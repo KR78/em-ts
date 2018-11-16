@@ -62,13 +62,30 @@ module.exports.storeAccounts = function(acnts) {
     });
 };
 
-// 
+// Return all transactions
 module.exports.getTransactions = function(req, res) {
     return new Promise(resolve => {
         db.then(function(connection) {
             console.log('con');
             // query database 
             connection.query("SELECT * FROM tranasctions", function(err, result, fields) {
+                if (err) throw err;
+                return console.log(result);
+            });
+        });
+        resolve();
+    });
+};
+
+// Store log files
+module.exports.storeLogs = function(transaction, get_log) {
+    return new Promise(resolve => {
+        var data = get_log;
+        db.then(function(connection) {
+            console.log('con');
+            // query database 
+            var statmnt = "INSERT INTO accounts (account_id, account_type, currency, display_name, provider) VALUES ?"
+            connection.query(statmnt, [data], function(err, result, fields) {
                 if (err) throw err;
                 return console.log(result);
             });

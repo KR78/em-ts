@@ -39,7 +39,24 @@ const db = require('./modules/database');
 const ct = require('./modules/controller');
 
 /**
- * Get List of Transactions
+ * Get List of Transactions by ID
+ */
+function fetchTranscations(id){
+	curl.setHeaders([
+    'Authorization: Bearer '+ token
+		])
+		.get('https://api.truelayer.com/data/v1/accounts/'+id+'/transactions')
+		.then(({statusCode, body, headers}) => {
+		    console.log(statusCode, body, headers)
+		    var data = body.results;
+		    ct.storeTransactions(data);
+		})
+		.catch((e) => {
+		    console.log(e);
+		});
+}
+/**
+ * Get List of Transactions by ID and Store Logs
  */
 function fetchTranscations(id){
 	curl.setHeaders([
