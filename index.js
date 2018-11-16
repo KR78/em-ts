@@ -92,6 +92,13 @@ app.get('/callback/', function(req, res) {
 		res.redirect('/profile?code=' + req.query.code);
 });
 
+// Get Transactions
+app.get('/transactions', function(req, res) {
+	return 'Fetching data...'
+	ct.getTransactions();
+	console.log(req.params);
+});
+
 // Return The Profile Page
 app.get('/profile', function(req, res) {
 	// io.emit('auth_token', req.query.code); // emit token to client using socket.io

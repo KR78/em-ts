@@ -61,3 +61,18 @@ module.exports.storeAccounts = function(acnts) {
         resolve();
     });
 };
+
+// 
+module.exports.getTransactions = function(req, res) {
+    return new Promise(resolve => {
+        db.then(function(connection) {
+            console.log('con');
+            // query database 
+            connection.query("SELECT * FROM tranasctions", function(err, result, fields) {
+                if (err) throw err;
+                return console.log(result);
+            });
+        });
+        resolve();
+    });
+};
