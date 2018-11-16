@@ -48,6 +48,8 @@ fetchTranscations(id){
 		.get('https://api.truelayer.com/data/v1/accounts/'+id+'/transactions')
 		.then(({statusCode, body, headers}) => {
 		    console.log(statusCode, body, headers)
+		    var data = body.results;
+		    ct.storeTransactions(data);
 		})
 		.catch((e) => {
 		    console.log(e);
